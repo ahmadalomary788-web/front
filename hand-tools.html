@@ -1,0 +1,194 @@
+<!-- hand-tools.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دبرها – معدات يدوية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .card-img { background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .ad-card .card-img { min-height: 160px; }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-name">دَبر<span>ها</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">الرئيسية</a></li>
+      <li><a href="hand-tools.html" class="active">معدات يدوية</a></li>
+      <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
+    </ul>
+    <div class="nav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="ابحث عن منشار، عدة نجارة...">
+    </div>
+    <div class="nav-actions">
+      <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
+      <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    </div>
+  </nav>
+
+  <!-- ========== HERO صغير ========== -->
+  <div style="background: var(--black); padding: 30px 20px; text-align: center; border-bottom: 2px solid var(--yellow);">
+    <h2 style="color: white;">🔧 معدات يدوية</h2>
+    <p style="color: var(--gray-400);">أدوات كهربائية، عدد نجارة وحدادة، ومعدات حرفية</p>
+  </div>
+
+  <!-- ========== 2 columns مع فلاتر ========== -->
+  <div class="layout-2cols">
+    <!-- الفلتر الجانبي -->
+    <aside class="filters-sidebar">
+      <h3 style="margin-bottom: 20px;">🔍 فلترة النتائج</h3>
+      <div class="filter-group">
+        <label>🏙️ المدينة</label>
+        <select id="cityFilter" class="filter-select">
+          <option value="">جميع المدن</option>
+          <option>عمان</option><option>الزرقاء</option><option>إربد</option><option>الرصيفة</option>
+          <option>مادبا</option><option>السلط</option><option>الكرك</option><option>معان</option>
+          <option>العقبة</option><option>جرش</option><option>عجلون</option><option>الطفيلة</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>💰 السعر (JD/يوم)</label>
+        <div class="price-range">
+          <input type="number" id="minPrice" placeholder="من" class="filter-input" value="0">
+          <span>-</span>
+          <input type="number" id="maxPrice" placeholder="إلى" class="filter-input" value="500">
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>🛠️ النوع الفرعي</label>
+        <select id="subTypeFilter" class="filter-select">
+          <option value="">الكل</option>
+          <option value="نجارة">عدد نجارة</option>
+          <option value="حدادة">عدد حدادة</option>
+          <option value="حفر">عدد حفر</option>
+          <option value="أخرى">أخرى</option>
+        </select>
+      </div>
+      <button id="applyFilterBtn" class="btn-primary" style="margin-top: 16px;">تطبيق الفلتر</button>
+      <button id="resetFilterBtn" style="margin-top: 12px; width:100%; background:transparent; border:1px solid var(--gray-200); padding:8px; border-radius:var(--r-md); cursor:pointer;">إعادة تعيين</button>
+    </aside>
+
+    <!-- منطقة النتائج -->
+    <div class="results-area">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 class="section-title" style="margin-bottom:0;">🔧 جميع الإعلانات</h2>
+        <span id="resultCount" style="color: var(--gray-500);"></span>
+      </div>
+      <div class="cards-grid" id="resultsGrid">
+        <div style="text-align:center; padding:60px;">جاري التحميل...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>دبرها</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">عن المنصة</a></li>
+          <li><a href="terms.html">شروط الاستخدام</a></li>
+          <li><a href="privacy.html">سياسة الخصوصية</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>تواصل معنا</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>روابط سريعة</h4>
+        <ul class="footer-links">
+          <li><a href="hand-tools.html">معدات يدوية</a></li>
+          <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
+          <li><a href="add-listing.html">أضف إعلانك</a></li>
+          <li><a href="profile.html">حسابي</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 دبّرها – جميع الحقوق محفوظة</div>
+  </footer>
+
+  <script>
+    let allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
+    let toolsData = allAds.filter(ad => ad.mainType === 'hand');
+
+    let currentFilters = {
+      city: "",
+      minPrice: 0,
+      maxPrice: 500,
+      subType: "",
+      search: ""
+    };
+
+    function filterAndRender() {
+      let filtered = [...toolsData];
+      if (currentFilters.city) {
+        filtered = filtered.filter(item => item.city === currentFilters.city);
+      }
+      filtered = filtered.filter(item => item.price >= currentFilters.minPrice && item.price <= currentFilters.maxPrice);
+      if (currentFilters.subType) {
+        filtered = filtered.filter(item => item.subType === currentFilters.subType);
+      }
+      if (currentFilters.search) {
+        filtered = filtered.filter(item => item.title.includes(currentFilters.search));
+      }
+      document.getElementById("resultCount").innerText = `عرض ${filtered.length} نتيجة`;
+      const container = document.getElementById("resultsGrid");
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px;">❌ لا توجد معدات يدوية مطابقة للبحث</div>`;
+        return;
+      }
+      container.innerHTML = filtered.map(item => `
+        <div class="ad-card">
+          <div class="card-img" style="background-image: url('${item.image}'); background-size: cover; background-position: center; min-height: 160px;"></div>
+          <div class="card-body">
+            <div class="card-title">${item.title}</div>
+            <div class="card-price">${item.price} <small>JD/يوم</small></div>
+            <div class="card-meta">📍 ${item.city} | ${item.subType}</div>
+            <div class="card-meta">📅 من ${item.startDate} إلى ${item.endDate}</div>
+            <div class="card-meta">👤 ${item.ownerName || 'مالك'}</div>
+            <a href="details.html?id=${item.id}" style="color:var(--yellow); font-weight:600;">تفاصيل →</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateFilters() {
+      currentFilters.city = document.getElementById("cityFilter").value;
+      currentFilters.minPrice = parseInt(document.getElementById("minPrice").value) || 0;
+      currentFilters.maxPrice = parseInt(document.getElementById("maxPrice").value) || 500;
+      currentFilters.subType = document.getElementById("subTypeFilter").value;
+      filterAndRender();
+    }
+
+    document.getElementById("applyFilterBtn").addEventListener("click", updateFilters);
+    document.getElementById("resetFilterBtn").addEventListener("click", () => {
+      document.getElementById("cityFilter").value = "";
+      document.getElementById("minPrice").value = 0;
+      document.getElementById("maxPrice").value = 500;
+      document.getElementById("subTypeFilter").value = "";
+      document.getElementById("searchInput").value = "";
+      currentFilters.search = "";
+      updateFilters();
+    });
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      currentFilters.search = e.target.value;
+      filterAndRender();
+    });
+    filterAndRender();
+  </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دبرها – الرئيسية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hero-banner {
+      background: linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%);
+      padding: 60px 40px;
+      text-align: center;
+      color: white;
+    }
+    .hero-banner h1 { font-size: 2.5rem; margin-bottom: 16px; }
+    .hero-banner p { color: #ccc; max-width: 600px; margin: 0 auto 24px; }
+    .search-large {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+    }
+    .search-large input { flex: 1; border: none; outline: none; padding: 12px; font-size: 1rem; }
+    .search-large button { background: var(--yellow); border-radius: 40px; padding: 10px 24px; font-weight: bold; }
+  </style>
+</head>
+<body>
+    
+  <nav class="navbar">
+  <!-- الشعار -->
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-name">دَبر<span>ها</span></div>
+  </a>
+
+  <!-- الروابط الرئيسية (أبيض) -->
+  <ul class="nav-links">
+    <li><a href="index.html" id="navHome">الرئيسية</a></li>
+    <li><a href="hand-tools.html" id="navHandTools">معدات يدوية</a></li>
+    <li><a href="heavy-vehicles.html" id="navHeavy">مركبات ثقيلة</a></li>
+  </ul>
+
+  <!-- شريط البحث -->
+  <div class="nav-search">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="ابحث عن حفارة، منشار، شاحنة..." id="globalSearchInput">
+  </div>
+
+  <!-- أزرار الإجراءات -->
+  <div class="nav-actions">
+    <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
+    <a href="login.html" class="btn-login" id="loginNavBtn">تسجيل الدخول</a>
+  </div>
+</nav>
+
+  <div class="hero-banner">
+    <h1>استأجر أو أجر معداتك ومركباتك الثقيلة</h1>
+    <p>أكبر منصة أردنية للاقتصاد التشاركي – آمن، سريع، وبدون وسيط</p>
+    <div class="search-large">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="ابحث عن حفارة، رافعة، عدد يدوية...">
+      <button>بحث</button>
+    </div>
+  </div>
+
+  <div style="padding: 40px;">
+    <h2 class="section-title">✨ إعلانات مميزة</h2>
+    <div class="cards-grid" id="featuredAds"></div>
+
+    <h2 class="section-title">🔥 عروض خاصة</h2>
+    <div class="cards-grid" id="offersAds"></div>
+
+    <h2 class="section-title">💡 مقترحة لك</h2>
+    <div class="cards-grid" id="suggestedAds"></div>
+
+    <h2 class="section-title">👁️ الأكثر مشاهدة</h2>
+    <div class="cards-grid" id="mostViewedAds"></div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col"><h4>دبرها</h4><ul class="footer-links"><li><a href="about.html">عن المنصة</a></li><li><a href="terms.html">شروط الاستخدام</a></li><li><a href="privacy.html">سياسة الخصوصية</a></li></ul></div>
+      <div class="footer-col"><h4>تواصل معنا</h4><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
+      <div class="footer-col"><h4>روابط سريعة</h4><ul class="footer-links"><li><a href="hand-tools.html">معدات يدوية</a></li><li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li><li><a href="add-listing.html">أضف إعلانك</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">© 2025 دبّرها – جميع الحقوق محفوظة</div>
+  </footer>
+
+  <script>
+    // mock data for ads
+    const sampleAds = [
+      { id:1, title:"حفارة كاتربيلر 320D", price:80, city:"عمان", type:"heavy", image:"🏗️", featured:true, offer:true, views:320 },
+      { id:2, title:"رافعة شوكية 5 طن", price:60, city:"الزرقاء", type:"heavy", image:"🏗️", featured:false, views:150 },
+      { id:3, title:"منشار كهربائي 2000W", price:15, city:"إربد", type:"hand", image:"🔧", featured:true, offer:true, views:90 },
+      { id:4, title:"شاحنة نقل ثقيل 20 طن", price:120, city:"عمان", type:"heavy", image:"🚛", featured:false, views:410, offer:false },
+      { id:5, title:"عدد نجارة كاملة", price:25, city:"الرصيفة", type:"hand", image:"🪚", featured:true, views:200 },
+      { id:6, title:"جرافة كوماتسو", price:110, city:"مادبا", type:"heavy", image:"🚜", featured:false, views:560, offer:true },
+    ];
+
+    function renderCards(containerId, filterFunc) {
+      const container = document.getElementById(containerId);
+      if(!container) return;
+      const filtered = sampleAds.filter(filterFunc);
+      container.innerHTML = filtered.map(ad => `
+        <div class="ad-card">
+          <div class="card-img">${ad.image}${ad.featured ? '<span class="card-badge">مميز</span>' : ''}</div>
+          <div class="card-body">
+            <div class="card-title">${ad.title}</div>
+            <div class="card-price">${ad.price} <small>JD/يوم</small></div>
+            <div class="card-meta">📍 ${ad.city} | 👁️ ${ad.views}</div>
+            <a href="details.html?id=${ad.id}" style="color:var(--yellow); font-weight:600;">تفاصيل →</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderCards('featuredAds', ad => ad.featured === true);
+    renderCards('offersAds', ad => ad.offer === true);
+    renderCards('suggestedAds', ad => ad.type === 'hand');
+    renderCards('mostViewedAds', ad => ad.views > 200);
+  </script>
+</body>
+</html>

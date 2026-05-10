@@ -1,0 +1,96 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دبرها – ملفي الشخصي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="common.js" defer></script>
+    <style>
+        .profile-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .info-card { background: white; border-radius: var(--r-lg); padding: 24px; margin-bottom: 30px; box-shadow: var(--sh-md); }
+        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
+        .edit-btn { color: var(--yellow); cursor: pointer; font-weight: 600; }
+        .ad-card.user-ad { margin-bottom: 20px; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+        .ad-card .card-img { width: 120px; height: 120px; background-size: cover; background-position: center; }
+        .ad-actions { margin-top: 10px; display: flex; gap: 10px; }
+        .btn-sm { padding: 6px 12px; border-radius: var(--r-md); font-weight: 600; border: none; cursor: pointer; }
+        .btn-edit { background: var(--yellow); color: black; }
+        .btn-delete { background: #dc2626; color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo"><div class="nav-logo-name">دَبر<span>ها</span></div></a>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="hand-tools.html">معدات يدوية</a></li>
+            <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
+        </ul>
+        <div class="nav-search"><i class="fas fa-search"></i><input type="text" placeholder="ابحث..."></div>
+        <div class="nav-actions">
+            <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
+            <a href="login.html" class="btn-login" id="loginNavBtn">تسجيل الدخول</a>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="info-card"><h2>👤 معلوماتي الشخصية</h2><div id="profileInfo"></div></div>
+        <div class="info-card"><h2>📦 إعلاناتي</h2><div id="myAdsList"></div></div>
+        <button id="logoutBtnProfile" class="btn-primary" style="background:#dc2626; margin-top:20px;">🚪 تسجيل الخروج</button>
+    </div>
+
+    <footer>... (footer) ...</footer>
+
+    <script>
+        const user = getCurrentUser();
+        if (!user) { alert('يرجى تسجيل الدخول'); window.location.href = 'login.html'; }
+
+        document.getElementById('profileInfo').innerHTML = `
+            <div class="info-row"><span>الاسم:</span><span>${user.firstName || ''} ${user.lastName || ''} <button class="edit-btn" onclick="editName()">تعديل</button></span></div>
+            <div class="info-row"><span>رقم الهاتف:</span><span>${user.phone || ''} <button class="edit-btn" onclick="editPhone()">تعديل</button></span></div>
+            <div class="info-row"><span>البريد الإلكتروني:</span><span>${user.email || ''}</span></div>
+            <div class="info-row"><span>رقم المحفظة:</span><span>${user.walletNumber || ''} <button class="edit-btn" onclick="editWallet()">تعديل</button></span></div>
+        `;
+
+        let allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
+        let myAds = allAds.filter(ad => ad.ownerId === (user.email || user.phone));
+
+        function renderMyAds() {
+            const container = document.getElementById('myAdsList');
+            if (myAds.length === 0) { container.innerHTML = '<p>لا توجد إعلانات. <a href="add-listing.html">أضف إعلانك الأول</a></p>'; return; }
+            container.innerHTML = myAds.map(ad => `
+                <div class="ad-card user-ad" data-id="${ad.id}">
+                    <div class="card-img" style="background-image: url('${ad.image}');"></div>
+                    <div class="card-body">
+                        <div class="card-title">${ad.title}</div>
+                        <div class="card-price" id="price-${ad.id}">${ad.price} <small>JD/يوم</small></div>
+                        <div class="card-meta">📍 ${ad.city} | ${ad.subType}</div>
+                        <div class="card-meta">📅 من ${ad.startDate} إلى ${ad.endDate}</div>
+                        <div class="ad-actions">
+                            <button class="btn-sm btn-edit" onclick="editAdPrice(${ad.id})">تعديل السعر</button>
+                            <button class="btn-sm btn-edit" onclick="editAdDates(${ad.id})">تعديل الموعد</button>
+                            <button class="btn-sm btn-delete" onclick="deleteAd(${ad.id})">حذف الإعلان</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.editAdPrice = (id) => { const ad = myAds.find(a => a.id === id); const newPrice = prompt('السعر الجديد', ad.price); if(newPrice && !isNaN(newPrice)) { ad.price = parseInt(newPrice); updateStorage(); renderMyAds(); } };
+        window.editAdDates = (id) => { const ad = myAds.find(a => a.id === id); const ns = prompt('تاريخ البداية (YYYY-MM-DD)', ad.startDate); const ne = prompt('تاريخ النهاية', ad.endDate); if(ns && ne) { ad.startDate = ns; ad.endDate = ne; updateStorage(); renderMyAds(); } };
+        window.deleteAd = (id) => { if(confirm('حذف الإعلان؟')) { myAds = myAds.filter(a => a.id !== id); allAds = allAds.filter(a => a.id !== id); updateStorage(); renderMyAds(); } };
+        function updateStorage() { allAds = allAds.map(ad => myAds.find(a => a.id === ad.id) || ad); localStorage.setItem('dabirha_ads', JSON.stringify(allAds)); }
+        renderMyAds();
+
+        window.editName = () => { const newName = prompt('الاسم الجديد'); if(newName) { user.firstName = newName; localStorage.setItem('dabirha_user', JSON.stringify(user)); location.reload(); } };
+        window.editPhone = () => { const newPhone = prompt('رقم الهاتف الجديد'); if(newPhone) { user.phone = newPhone; localStorage.setItem('dabirha_user', JSON.stringify(user)); location.reload(); } };
+        window.editWallet = () => { const newWallet = prompt('رقم المحفظة الجديد'); if(newWallet) { user.walletNumber = newWallet; localStorage.setItem('dabirha_user', JSON.stringify(user)); location.reload(); } };
+
+        document.getElementById('logoutBtnProfile')?.addEventListener('click', () => { logout(); });
+    </script>
+</body>
+</html>

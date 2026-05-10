@@ -1,0 +1,255 @@
+<!-- privacy.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دبرها – سياسة الخصوصية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .privacy-hero {
+      background: linear-gradient(135deg, var(--black) 0%, var(--black-800) 100%);
+      padding: 50px 40px;
+      text-align: center;
+      border-bottom: 3px solid var(--yellow);
+    }
+    .privacy-hero h1 {
+      font-size: 2.5rem;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .privacy-hero h1 span {
+      color: var(--yellow);
+    }
+    .privacy-hero p {
+      color: var(--gray-400);
+    }
+    .privacy-container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 24px;
+    }
+    /* أكورديون */
+    .accordion-item {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      margin-bottom: 16px;
+      box-shadow: var(--sh-sm);
+      overflow: hidden;
+    }
+    .accordion-header {
+      background: var(--white);
+      padding: 18px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      border-bottom: 1px solid var(--gray-100);
+      transition: background 0.2s;
+    }
+    .accordion-header:hover {
+      background: var(--gray-50);
+    }
+    .accordion-header i {
+      font-size: 1.2rem;
+      color: var(--yellow);
+      transition: transform 0.3s;
+    }
+    .accordion-content {
+      display: none;
+      padding: 24px;
+      background: var(--white);
+      line-height: 1.8;
+      color: var(--gray-700);
+      font-size: 0.95rem;
+      border-top: 1px solid var(--gray-100);
+    }
+    .accordion-item.active .accordion-content {
+      display: block;
+    }
+    .accordion-item.active .accordion-header i {
+      transform: rotate(180deg);
+    }
+    .accordion-content ul, .accordion-content ol {
+      margin-right: 20px;
+      margin-top: 8px;
+    }
+    .accordion-content li {
+      margin-bottom: 8px;
+    }
+    .last-updated {
+      text-align: center;
+      margin: 30px 0 20px;
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+    @media (max-width: 700px) {
+      .accordion-header { padding: 14px 16px; font-size: 1rem; }
+      .accordion-content { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-name">دَبر<span>ها</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">الرئيسية</a></li>
+      <li><a href="hand-tools.html">معدات يدوية</a></li>
+      <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
+    </ul>
+    <div class="nav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="ابحث...">
+    </div>
+    <div class="nav-actions">
+      <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
+      <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    </div>
+  </nav>
+
+  <div class="privacy-hero">
+    <h1>🔒 سياسة <span>الخصوصية</span></h1>
+    <p>نحمي بياناتك ونضمن شفافية التعامل</p>
+  </div>
+
+  <div class="privacy-container">
+    <!-- 1. مقدمة -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-file-alt" style="margin-left: 8px; color: var(--yellow);"></i> 1. مقدمة </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        في منصة "دبّرها"، نولي خصوصيتك أهمية قصوى. تهدف سياسة الخصوصية هذه إلى توضيح كيفية جمعنا لمعلوماتك الشخصية واستخدامها وحمايتها عند استخدامك لموقعنا أو تطبيقنا. باستخدامك للمنصة، فإنك توافق على الممارسات الموضحة في هذه الوثيقة.
+      </div>
+    </div>
+
+    <!-- 2. البيانات التي نجمعها (أيقونة 🛡️) -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-shield-alt" style="margin-left: 8px; color: var(--yellow);"></i> 2. البيانات التي نجمعها </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        نحن نجمع البيانات الضرورية لتقديم خدمة آمنة وفعالة، وتشمل:
+        <ul>
+          <li><strong>بيانات الحساب الأساسية:</strong> الاسم، رقم الهاتف، والبريد الإلكتروني.</li>
+          <li><strong>بيانات الدفع:</strong> معلومات البطاقات الائتمانية أو المحافظ الإلكترونية (تُعالج بشكل مشفر عبر بوابات دفع طرف ثالث معتمدة، ولا نقوم بتخزين الأرقام الكاملة للبطاقات).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3. كيف نستخدم بياناتك -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-chart-line" style="margin-left: 8px; color: var(--yellow);"></i> 3. كيف نستخدم بياناتك </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        نستخدم البيانات التي نجمعها للأغراض التالية:
+        <ul>
+          <li>تسهيل عمليات الحجز والربط بين المُؤجِّر والمُستأجر.</li>
+          <li>معالجة المدفوعات وتفعيل نظام الضمان (Escrow).</li>
+          <li>حل النزاعات وتقديم الدعم الفني وخدمة العملاء.</li>
+          <li>إرسال التنبيهات المهمة المتعلقة بالحجوزات، العقود الرقمية، أو تحديثات الأمان.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4. مشاركة البيانات مع أطراف ثالثة -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-share-alt" style="margin-left: 8px; color: var(--yellow);"></i> 4. مشاركة البيانات </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        نحن لا نبيع بياناتك الشخصية لأي جهة. يتم مشاركة البيانات في أضيق الحدود، وتشمل:
+        <ul>
+          <li><strong>بين المستخدمين:</strong> عند تأكيد الحجز، نشارك الاسم الأول ورقم الهاتف بين المالك والمستأجر لتسهيل التواصل واستلام المعدة.</li>
+          <li><strong>مزودي الخدمات:</strong> مثل بوابات الدفع الإلكتروني وشركات إرسال الرسائل النصية (SMS).</li>
+          <li><strong>الجهات القانونية:</strong> قد نضطر لمشاركة البيانات إذا طُلب منا ذلك بموجب أمر قضائي أو لحماية حقوق المنصة والمستخدمين في حالات السرقة أو التخريب.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5. أمن البيانات (أيقونة 🔒) -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-lock" style="margin-left: 8px; color: var(--yellow);"></i> 5. أمن البيانات </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        نحن نستخدم بروتوكولات أمان متقدمة، بما في ذلك تشفير (SSL)، لحماية بياناتك من الوصول غير المصرح به أو التعديل أو الإفشاء. يتم تخزين مستندات الهوية (KYC) في خوادم سحابية محمية ومقيدة الوصول.
+      </div>
+    </div>
+
+    <!-- 6. حقوق المستخدم -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-user-check" style="margin-left: 8px; color: var(--yellow);"></i> 6. حقوق المستخدم </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        يحق لك في أي وقت الدخول إلى حسابك وتعديل بياناتك الشخصية. كما يحق لك طلب حذف حسابك وبياناتك بالكامل من خوادمنا عبر التواصل مع فريق الدعم، باستثناء البيانات التي يتطلب القانون الاحتفاظ بها لفترة محددة (مثل سجلات الفواتير).
+      </div>
+    </div>
+
+    <div class="last-updated">
+      <i class="fas fa-clock"></i> تاريخ السريان: 10 مايو 2026 – قد يتم تحديث السياسة من حين لآخر، يُرجى مراجعة هذه الصفحة باستمرار.
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>دبرها</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">عن المنصة</a></li>
+          <li><a href="terms.html">شروط الاستخدام</a></li>
+          <li><a href="privacy.html">سياسة الخصوصية</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>تواصل معنا</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>روابط سريعة</h4>
+        <ul class="footer-links">
+          <li><a href="hand-tools.html">معدات يدوية</a></li>
+          <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
+          <li><a href="add-listing.html">أضف إعلانك</a></li>
+          <li><a href="profile.html">حسابي</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 دبّرها – جميع الحقوق محفوظة
+    </div>
+  </footer>
+
+  <script>
+    // أكورديون
+    const headers = document.querySelectorAll('.accordion-header');
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const parent = header.closest('.accordion-item');
+        parent.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>

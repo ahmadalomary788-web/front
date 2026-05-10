@@ -1,0 +1,272 @@
+<!-- terms.html – نسخة تعمل بشكل مضمون (display toggling) -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دبرها – شروط الاستخدام</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .terms-hero {
+      background: linear-gradient(135deg, var(--black) 0%, var(--black-800) 100%);
+      padding: 50px 40px;
+      text-align: center;
+      border-bottom: 3px solid var(--yellow);
+    }
+    .terms-hero h1 {
+      font-size: 2.5rem;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .terms-hero h1 span {
+      color: var(--yellow);
+    }
+    .terms-hero p {
+      color: var(--gray-400);
+    }
+    .terms-container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 24px;
+    }
+    /* أكورديون بسيط يعتمد على display */
+    .accordion-item {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      margin-bottom: 16px;
+      box-shadow: var(--sh-sm);
+      overflow: hidden;
+    }
+    .accordion-header {
+      background: var(--white);
+      padding: 18px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      border-bottom: 1px solid var(--gray-100);
+      transition: background 0.2s;
+    }
+    .accordion-header:hover {
+      background: var(--gray-50);
+    }
+    .accordion-header i {
+      font-size: 1.2rem;
+      color: var(--yellow);
+      transition: transform 0.3s;
+    }
+    /* المحتوى مخفي في البداية */
+    .accordion-content {
+      display: none;
+      padding: 24px;
+      background: var(--white);
+      line-height: 1.8;
+      color: var(--gray-700);
+      font-size: 0.95rem;
+      border-top: 1px solid var(--gray-100);
+    }
+    /* عندما يكون العنصر نشطاً نظهر المحتوى */
+    .accordion-item.active .accordion-content {
+      display: block;
+    }
+    .accordion-item.active .accordion-header i {
+      transform: rotate(180deg);
+    }
+    .accordion-content ul, .accordion-content ol {
+      margin-right: 20px;
+      margin-top: 8px;
+    }
+    .accordion-content li {
+      margin-bottom: 8px;
+    }
+    .last-updated {
+      text-align: center;
+      margin: 30px 0 20px;
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+    @media (max-width: 700px) {
+      .accordion-header { padding: 14px 16px; font-size: 1rem; }
+      .accordion-content { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-name">دَبر<span>ها</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">الرئيسية</a></li>
+      <li><a href="hand-tools.html">معدات يدوية</a></li>
+      <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
+    </ul>
+    <div class="nav-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="ابحث...">
+    </div>
+    <div class="nav-actions">
+      <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
+      <a href="login.html" class="btn-login">تسجيل الدخول</a>
+    </div>
+  </nav>
+
+  <div class="terms-hero">
+    <h1>📜 شروط <span>الاستخدام</span></h1>
+    <p>آخر تحديث: 10 مايو 2026</p>
+  </div>
+
+  <div class="terms-container">
+    <!-- بند 1: مقدمة -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-info-circle" style="margin-left: 8px; color: var(--yellow);"></i> 1. مقدمة </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        مرحباً بكم في منصة "دبّرها". باستخدامك لموقعنا أو تطبيقنا، فإنك توافق التام على الالتزام بهذه الشروط والأحكام. تعمل "دبّرها" كوسيط رقمي (Marketplace) يربط بين مُلاك المعدات والمركبات (المُؤجِّرين) والأشخاص أو الشركات الراغبة في استئجارها (المُستأجرين)، ولا تعتبر المنصة مالكة لأي من الآليات المعروضة.
+      </div>
+    </div>
+
+    <!-- بند 2: الحسابات -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-user-check" style="margin-left: 8px; color: var(--yellow);"></i> 2. الحسابات وتوثيق الهوية </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        <ul>
+          <li>يجب على كل مستخدم إنشاء حساب دقيق وكامل قبل استخدام المنصة.</li>
+          <li>نطلب رفع صورة الهوية أو جواز السفر لتوثيق الهوية (KYC) حفاظاً على أمان الجميع.</li>
+          <li><strong>المنصة غير مسؤولة عن أي معلومات مضللة يقدمها المستخدم، ويحق لنا إيقاف أي حساب يثبت تلاعبه بالبيانات.</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- بند 3: التزامات المؤجر -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-tools" style="margin-left: 8px; color: var(--yellow);"></i> 3. التزامات المُؤجِّر </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        <ul>
+          <li>يلتزم المالك بأن تكون المعدة أو الآلية المرفوعة على المنصة مطابقة للوصف والصور، وصالحة للعمل وخالية من العيوب الخطيرة.</li>
+          <li>المالك مسؤول عن توفير أي تراخيص أو تأمينات إلزامية تتطلبها القوانين المحلية للآليات الثقيلة قبل تسليمها للمستأجر.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- بند 4: التزامات المستأجر -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-hand-peace" style="margin-left: 8px; color: var(--yellow);"></i> 4. التزامات المُستأجر </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        <ul>
+          <li>يلتزم المستأجر باستخدام المعدة للغرض المخصص لها فقط، وبطريقة آمنة ومهنية.</li>
+          <li>المستأجر مسؤول عن أي أضرار تلحق بالمعدة ناتجة عن سوء الاستخدام أو الإهمال والتي لا يغطيها التأمين الأساسي للمنصة.</li>
+          <li>يجب إعادة المعدة في الوقت والتاريخ المحددين في العقد الرقمي. أي تأخير سيترتب عليه رسوم إضافية.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- بند 5: المدفوعات -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-credit-card" style="margin-left: 8px; color: var(--yellow);"></i> 5. المدفوعات ونظام الضمان </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        <ul>
+          <li>تتم جميع المدفوعات إلكترونياً عبر منصة "دبّرها". يُمنع الدفع النقدي الخارجي لضمان حقوق الطرفين.</li>
+          <li>تحتجز المنصة مبلغ الإيجار بأمان (نظام الضمان Escrow) ولا يتم تحويله للمُؤجِّر إلا بعد استلام المُستأجر للمعدة والتأكد من مطابقتها للمواصفات.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- بند 6: الإلغاءات -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-ban" style="margin-left: 8px; color: var(--yellow);"></i> 6. الإلغاء والنزاعات </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        <ul>
+          <li>يمكن للمستأجر إلغاء الحجز مجاناً قبل 24 ساعة من موعد الاستلام. الإلغاء بعد ذلك قد يترتب عليه خصم نسبة من المبلغ.</li>
+          <li>في حال حدوث نزاع حول حالة المعدة (قبل أو بعد الاستخدام)، يتم الرجوع إلى الصور ومقاطع الفيديو المرفقة في "العقد الرقمي" عند لحظة التسليم، ويكون قرار فريق دعم "دبّرها" فاصلاً.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- بند 7: القانون المطبق -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <span><i class="fas fa-gavel" style="margin-left: 8px; color: var(--yellow);"></i> 7. القانون المطبق </span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+      <div class="accordion-content">
+        تخضع هذه الشروط والأحكام وتُفسر وفقاً للقوانين المعمول بها في المملكة الأردنية الهاشمية، وتختص المحاكم الأردنية بحل أي نزاع لا يمكن تسويته ودياً.
+      </div>
+    </div>
+
+    <div class="last-updated">
+      <i class="fas fa-clock"></i> تاريخ السريان: 10 مايو 2026 – قد يتم تحديث الشروط من حين لآخر، يُرجى مراجعة هذه الصفحة باستمرار.
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>دبرها</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">عن المنصة</a></li>
+          <li><a href="terms.html">شروط الاستخدام</a></li>
+          <li><a href="privacy.html">سياسة الخصوصية</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>تواصل معنا</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>روابط سريعة</h4>
+        <ul class="footer-links">
+          <li><a href="hand-tools.html">معدات يدوية</a></li>
+          <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
+          <li><a href="add-listing.html">أضف إعلانك</a></li>
+          <li><a href="profile.html">حسابي</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 دبّرها – جميع الحقوق محفوظة
+    </div>
+  </footer>
+
+  <script>
+    // أكورديون يعمل ببساطة عن طريق إضافة/إزالة كلاس active
+    const headers = document.querySelectorAll('.accordion-header');
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const parent = header.closest('.accordion-item');
+        parent.classList.toggle('active');
+      });
+    });
+    // (اختياري) فتح أول عنصر تلقائياً ليرى المستخدم أنه يعمل
+    // document.querySelector('.accordion-item').classList.add('active');
+  </script>
+</body>
+</html>

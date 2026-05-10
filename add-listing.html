@@ -1,0 +1,85 @@
+<!-- add-listing.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دبرها – أضف إعلان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="common.js" defer></script>
+    <style>
+        .form-card { max-width: 700px; margin: 40px auto; }
+        .image-preview { max-width: 150px; margin-top: 10px; display: none; }
+        .image-preview img { width: 100%; border-radius: var(--r-md); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">... (navbar كامل) ...</nav>
+    <div class="form-card">
+        <h2 style="margin-bottom:24px; text-align:center;">➕ إضافة إعلان جديد</h2>
+        <form id="addListingForm">
+            <div class="form-group"><label>اسم الإعلان *</label><input type="text" id="title" required></div>
+            <div class="form-group"><label>السعر (JD/يوم) *</label><input type="number" id="price" required></div>
+            <div class="form-row"><div class="form-group"><label>من تاريخ *</label><input type="date" id="startDate" required></div><div class="form-group"><label>إلى تاريخ *</label><input type="date" id="endDate" required></div></div>
+            <div class="form-group"><label>المدينة *</label><select id="city" required><option value="">اختر</option><option>عمان</option><option>الزرقاء</option><option>إربد</option></select></div>
+            <div class="form-group"><label>النوع الأساسي *</label><select id="mainType" required><option value="">اختر</option><option value="heavy">مركبة ثقيلة</option><option value="hand">معدة يدوية</option></select></div>
+            <div class="form-group"><label>النوع الفرعي *</label><select id="subType" required><option value="">اختر النوع الأساسي أولاً</option></select></div>
+            <div class="form-group"><label>وصف الإعلان *</label><textarea id="description" rows="3" required></textarea></div>
+            <div class="form-group"><label>صورة الإعلان *</label><input type="file" id="adImage" accept="image/*" required><div class="image-preview" id="imagePreview"><img id="previewImg"></div></div>
+            <div class="checkbox-group"><input type="checkbox" id="featuredCheckbox"><label>🌟 جعل الإعلان مميزاً (رسوم 5 JD)</label></div>
+            <button type="submit" class="btn-primary">✅ نشر الإعلان</button>
+        </form>
+    </div>
+    <footer>...</footer>
+    <script>
+        if (!requireLogin()) { throw new Error('غير مسجل'); }
+        const subTypesMap = { heavy: [{value:"جرافة",label:"جرافة"},{value:"حفار",label:"حفار"}], hand: [{value:"نجارة",label:"نجارة"},{value:"حدادة",label:"حدادة"}] };
+        document.getElementById('mainType').addEventListener('change', function() {
+            const st = document.getElementById('subType');
+            st.innerHTML = '<option value="">اختر</option>';
+            (subTypesMap[this.value] || []).forEach(sub => { const opt = document.createElement('option'); opt.value = sub.value; opt.textContent = sub.label; st.appendChild(opt); });
+        });
+        document.getElementById('adImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) { const reader = new FileReader(); reader.onload = ev => { document.getElementById('previewImg').src = ev.target.result; document.getElementById('imagePreview').style.display = 'block'; }; reader.readAsDataURL(file); }
+        });
+        document.getElementById('addListingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const start = new Date(document.getElementById('startDate').value);
+            const end = new Date(document.getElementById('endDate').value);
+            if (start >= end) { alert('تاريخ النهاية يجب أن يكون بعد البداية'); return; }
+            const file = document.getElementById('adImage').files[0];
+            if (!file) { alert('يرجى رفع صورة'); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const user = getCurrentUser();
+                const newAd = {
+                    id: Date.now(),
+                    title: document.getElementById('title').value,
+                    price: parseInt(document.getElementById('price').value),
+                    startDate: document.getElementById('startDate').value,
+                    endDate: document.getElementById('endDate').value,
+                    city: document.getElementById('city').value,
+                    mainType: document.getElementById('mainType').value,
+                    subType: document.getElementById('subType').value,
+                    description: document.getElementById('description').value,
+                    image: ev.target.result,
+                    featured: document.getElementById('featuredCheckbox').checked,
+                    ownerId: user.email || user.phone,
+                    ownerName: (user.firstName||'') + ' ' + (user.lastName||''),
+                    status: 'متاح',
+                    views: 0
+                };
+                let allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
+                allAds.push(newAd);
+                localStorage.setItem('dabirha_ads', JSON.stringify(allAds));
+                alert('تم نشر الإعلان!');
+                window.location.href = 'profile.html';
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>

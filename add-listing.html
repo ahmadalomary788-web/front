@@ -10,72 +10,153 @@
     <link rel="stylesheet" href="style.css">
     <script src="common.js" defer></script>
     <style>
-        .form-card { max-width: 700px; margin: 40px auto; }
+        .form-card { max-width: 700px; margin: 40px auto; padding: 0 20px 60px; }
         .image-preview { max-width: 150px; margin-top: 10px; display: none; }
-        .image-preview img { width: 100%; border-radius: var(--r-md); }
+        .image-preview img { width: 100%; border-radius: 8px; }
+        .form-inner { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .form-row { display: flex; gap: 16px; flex-wrap: wrap; }
+        .form-row .form-group { flex: 1; }
     </style>
 </head>
 <body>
-    <nav class="navbar">... (navbar كامل) ...</nav>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo"><div class="nav-logo-name">دَبر<span>ها</span></div></a>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="hand-tools.html">معدات يدوية</a></li>
+            <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
+        </ul>
+        <div class="nav-search"><i class="fas fa-search"></i><input type="text" placeholder="ابحث..."></div>
+        <div class="nav-actions">
+            <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
+            <a href="login.html" class="btn-login" id="loginNavBtn">تسجيل الدخول</a>
+        </div>
+    </nav>
+
     <div class="form-card">
         <h2 style="margin-bottom:24px; text-align:center;">➕ إضافة إعلان جديد</h2>
-        <form id="addListingForm">
+        <div class="form-inner">
             <div class="form-group"><label>اسم الإعلان *</label><input type="text" id="title" required></div>
-            <div class="form-group"><label>السعر (JD/يوم) *</label><input type="number" id="price" required></div>
-            <div class="form-row"><div class="form-group"><label>من تاريخ *</label><input type="date" id="startDate" required></div><div class="form-group"><label>إلى تاريخ *</label><input type="date" id="endDate" required></div></div>
-            <div class="form-group"><label>المدينة *</label><select id="city" required><option value="">اختر</option><option>عمان</option><option>الزرقاء</option><option>إربد</option></select></div>
-            <div class="form-group"><label>النوع الأساسي *</label><select id="mainType" required><option value="">اختر</option><option value="heavy">مركبة ثقيلة</option><option value="hand">معدة يدوية</option></select></div>
-            <div class="form-group"><label>النوع الفرعي *</label><select id="subType" required><option value="">اختر النوع الأساسي أولاً</option></select></div>
-            <div class="form-group"><label>وصف الإعلان *</label><textarea id="description" rows="3" required></textarea></div>
-            <div class="form-group"><label>صورة الإعلان *</label><input type="file" id="adImage" accept="image/*" required><div class="image-preview" id="imagePreview"><img id="previewImg"></div></div>
-            <div class="checkbox-group"><input type="checkbox" id="featuredCheckbox"><label>🌟 جعل الإعلان مميزاً (رسوم 5 JD)</label></div>
-            <button type="submit" class="btn-primary">✅ نشر الإعلان</button>
-        </form>
+            <div class="form-group"><label>السعر (JD/يوم) *</label><input type="number" id="price" required min="1"></div>
+            <div class="form-row">
+                <div class="form-group"><label>من تاريخ *</label><input type="date" id="startDate" required></div>
+                <div class="form-group"><label>إلى تاريخ *</label><input type="date" id="endDate" required></div>
+            </div>
+            <div class="form-group">
+                <label>المدينة *</label>
+                <select id="city" required>
+                    <option value="">اختر</option>
+                    <option>عمان</option><option>الزرقاء</option><option>إربد</option>
+                    <option>الرصيفة</option><option>مادبا</option><option>السلط</option>
+                    <option>الكرك</option><option>معان</option><option>العقبة</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>النوع الأساسي *</label>
+                <select id="mainType" required>
+                    <option value="">اختر</option>
+                    <option value="heavy">مركبة ثقيلة</option>
+                    <option value="hand">معدة يدوية</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>النوع الفرعي *</label>
+                <select id="subType" required><option value="">اختر النوع الأساسي أولاً</option></select>
+            </div>
+            <div class="form-group"><label>وصف الإعلان *</label><textarea id="description" rows="3" required style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; resize:vertical;"></textarea></div>
+            <div class="form-group">
+                <label>صورة الإعلان *</label>
+                <input type="file" id="adImage" accept="image/*" required>
+                <div class="image-preview" id="imagePreview"><img id="previewImg"></div>
+            </div>
+            <div class="checkbox-group" style="margin-bottom:20px;">
+                <input type="checkbox" id="featuredCheckbox">
+                <label>🌟 جعل الإعلان مميزاً (رسوم 5 JD)</label>
+            </div>
+            <button id="submitBtn" class="btn-primary">✅ نشر الإعلان</button>
+        </div>
     </div>
-    <footer>...</footer>
+
+    <footer>
+        <div class="footer-inner" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1200px; margin: 0 auto;">
+            <div class="footer-col"><h4 style="color: white;">دبرها</h4><ul class="footer-links" style="list-style: none; padding: 0;"><li><a href="about.html" style="color: #9CA3AF;">عن المنصة</a></li><li><a href="terms.html" style="color: #9CA3AF;">شروط الاستخدام</a></li><li><a href="privacy.html" style="color: #9CA3AF;">سياسة الخصوصية</a></li></ul></div>
+            <div class="footer-col"><h4 style="color: white;">تواصل معنا</h4><div class="social-icons" style="display: flex; gap: 16px;"><a href="#" onclick="return false;" style="color: #9CA3AF;"><i class="fab fa-facebook"></i></a><a href="#" onclick="return false;" style="color: #9CA3AF;"><i class="fab fa-instagram"></i></a><a href="#" onclick="return false;" style="color: #9CA3AF;"><i class="fab fa-whatsapp"></i></a></div></div>
+            <div class="footer-col"><h4 style="color: white;">روابط سريعة</h4><ul class="footer-links" style="list-style: none; padding: 0;"><li><a href="hand-tools.html" style="color: #9CA3AF;">معدات يدوية</a></li><li><a href="heavy-vehicles.html" style="color: #9CA3AF;">مركبات ثقيلة</a></li><li><a href="profile.html" style="color: #9CA3AF;">حسابي</a></li></ul></div>
+        </div>
+        <div class="footer-bottom" style="text-align: center; padding-top: 30px; margin-top: 30px; border-top: 1px solid #333;">© 2025 دبّرها – جميع الحقوق محفوظة</div>
+    </footer>
+
     <script>
-        if (!requireLogin()) { throw new Error('غير مسجل'); }
-        const subTypesMap = { heavy: [{value:"جرافة",label:"جرافة"},{value:"حفار",label:"حفار"}], hand: [{value:"نجارة",label:"نجارة"},{value:"حدادة",label:"حدادة"}] };
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!requireLogin()) return;
+            updateNavbarForAuth();
+        });
+
+        const subTypesMap = {
+            heavy: ['جرافة','حفار','JCB','شاحنة','رافعة'],
+            hand:  ['نجارة','حدادة','حفر','كهرباء','سباكة','أخرى']
+        };
+
         document.getElementById('mainType').addEventListener('change', function() {
             const st = document.getElementById('subType');
             st.innerHTML = '<option value="">اختر</option>';
-            (subTypesMap[this.value] || []).forEach(sub => { const opt = document.createElement('option'); opt.value = sub.value; opt.textContent = sub.label; st.appendChild(opt); });
+            (subTypesMap[this.value] || []).forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s; opt.textContent = s;
+                st.appendChild(opt);
+            });
         });
+
         document.getElementById('adImage').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            if (file) { const reader = new FileReader(); reader.onload = ev => { document.getElementById('previewImg').src = ev.target.result; document.getElementById('imagePreview').style.display = 'block'; }; reader.readAsDataURL(file); }
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    document.getElementById('previewImg').src = ev.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
         });
-        document.getElementById('addListingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const start = new Date(document.getElementById('startDate').value);
-            const end = new Date(document.getElementById('endDate').value);
-            if (start >= end) { alert('تاريخ النهاية يجب أن يكون بعد البداية'); return; }
+
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const title = document.getElementById('title').value.trim();
+            const price = document.getElementById('price').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const city = document.getElementById('city').value;
+            const mainType = document.getElementById('mainType').value;
+            const subType = document.getElementById('subType').value;
+            const description = document.getElementById('description').value.trim();
             const file = document.getElementById('adImage').files[0];
+
+            if (!title || !price || !startDate || !endDate || !city || !mainType || !subType || !description) {
+                alert('يرجى تعبئة جميع الحقول المطلوبة'); return;
+            }
+            if (new Date(startDate) >= new Date(endDate)) {
+                alert('تاريخ النهاية يجب أن يكون بعد البداية'); return;
+            }
             if (!file) { alert('يرجى رفع صورة'); return; }
+
             const reader = new FileReader();
-            reader.onload = ev => {
+            reader.onload = function(ev) {
                 const user = getCurrentUser();
                 const newAd = {
                     id: Date.now(),
-                    title: document.getElementById('title').value,
-                    price: parseInt(document.getElementById('price').value),
-                    startDate: document.getElementById('startDate').value,
-                    endDate: document.getElementById('endDate').value,
-                    city: document.getElementById('city').value,
-                    mainType: document.getElementById('mainType').value,
-                    subType: document.getElementById('subType').value,
-                    description: document.getElementById('description').value,
+                    title, price: parseInt(price),
+                    startDate, endDate, city, mainType, subType, description,
                     image: ev.target.result,
                     featured: document.getElementById('featuredCheckbox').checked,
-                    ownerId: user.email || user.phone,
-                    ownerName: (user.firstName||'') + ' ' + (user.lastName||''),
+                    ownerId: user.email,
+                    ownerName: (user.firstName || '') + ' ' + (user.lastName || ''),
                     status: 'متاح',
-                    views: 0
+                    views: 0,
+                    createdAt: new Date().toISOString()
                 };
-                let allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
+                const allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
                 allAds.push(newAd);
                 localStorage.setItem('dabirha_ads', JSON.stringify(allAds));
-                alert('تم نشر الإعلان!');
+                alert('تم نشر الإعلان بنجاح!');
                 window.location.href = 'profile.html';
             };
             reader.readAsDataURL(file);

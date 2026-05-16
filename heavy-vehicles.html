@@ -1,4 +1,4 @@
-<!-- heavy-vehicles.html -->
+<!-- heavy-vehicles.html - نسخة مع ضمان ظهور أيقونة المستخدم -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <script src="common.js" defer></script>
   <style>
     .card-img { background-size: cover; background-position: center; background-repeat: no-repeat; }
     .ad-card .card-img { min-height: 160px; }
@@ -15,7 +16,7 @@
 </head>
 <body>
 
-  <!-- ========== NAVBAR ========== -->
+  <!-- ========== NAVBAR (مع التعديلات اللازمة) ========== -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
       <div class="nav-logo-name">دَبر<span>ها</span></div>
@@ -31,19 +32,19 @@
     </div>
     <div class="nav-actions">
       <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
-      <a href="login.html" class="btn-login">تسجيل الدخول</a>
+      <a href="login.html" class="btn-login" id="loginNavBtn">تسجيل الدخول</a>
+      <div id="userMenuContainer"></div>
     </div>
   </nav>
 
-  <!-- ========== HERO صغير ========== -->
+  <!-- ========== HERO ========== -->
   <div style="background: var(--black); padding: 30px 20px; text-align: center; border-bottom: 2px solid var(--yellow);">
     <h2 style="color: white;">🚛 مركبات ثقيلة</h2>
     <p style="color: var(--gray-400);">حفّارات، جرافات، JCB، شاحنات وآليات إنشائية</p>
   </div>
 
-  <!-- ========== 2 columns مع فلاتر ========== -->
+  <!-- ========== 2 columns مع فلاتر (بدون تغيير) ========== -->
   <div class="layout-2cols">
-    <!-- الفلتر الجانبي -->
     <aside class="filters-sidebar">
       <h3 style="margin-bottom: 20px;">🔍 فلترة المركبات</h3>
       <div class="filter-group">
@@ -77,7 +78,6 @@
       <button id="resetFilterBtn" style="margin-top: 12px; width:100%; background:transparent; border:1px solid var(--gray-200); padding:8px; border-radius:var(--r-md); cursor:pointer;">إعادة تعيين</button>
     </aside>
 
-    <!-- منطقة النتائج -->
     <div class="results-area">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
         <h2 class="section-title" style="margin-bottom:0;">🚜 جميع المركبات الثقيلة</h2>
@@ -103,9 +103,9 @@
       <div class="footer-col">
         <h4>تواصل معنا</h4>
         <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" onclick="return false;"><i class="fab fa-facebook"></i></a>
+          <a href="#" onclick="return false;"><i class="fab fa-instagram"></i></a>
+          <a href="#" onclick="return false;"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-col">
@@ -122,6 +122,20 @@
   </footer>
 
   <script>
+    // تنفيذ تحديث الـ navbar مرتين للتأكد (مرة فورية ومرة بعد تحميل DOM)
+    if (typeof updateNavbarForAuth === 'function') {
+      updateNavbarForAuth();
+    } else {
+      console.warn('updateNavbarForAuth not loaded yet, waiting...');
+      window.addEventListener('load', function() {
+        if (typeof updateNavbarForAuth === 'function') updateNavbarForAuth();
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof updateNavbarForAuth === 'function') updateNavbarForAuth();
+    });
+
+    // باقي الكود الخاص بالإعلانات والفلترة (بدون تغيير)
     let allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
     let heavyData = allAds.filter(ad => ad.mainType === 'heavy');
 
@@ -135,16 +149,10 @@
 
     function filterAndRender() {
       let filtered = [...heavyData];
-      if (currentFilters.city) {
-        filtered = filtered.filter(item => item.city === currentFilters.city);
-      }
+      if (currentFilters.city) filtered = filtered.filter(item => item.city === currentFilters.city);
       filtered = filtered.filter(item => item.price >= currentFilters.minPrice && item.price <= currentFilters.maxPrice);
-      if (currentFilters.subType) {
-        filtered = filtered.filter(item => item.subType === currentFilters.subType);
-      }
-      if (currentFilters.search) {
-        filtered = filtered.filter(item => item.title.includes(currentFilters.search));
-      }
+      if (currentFilters.subType) filtered = filtered.filter(item => item.subType === currentFilters.subType);
+      if (currentFilters.search) filtered = filtered.filter(item => item.title.includes(currentFilters.search));
       document.getElementById("resultCount").innerText = `عرض ${filtered.length} نتيجة`;
       const container = document.getElementById("resultsGrid");
       if (filtered.length === 0) {

@@ -10,19 +10,57 @@
     <link rel="stylesheet" href="style.css">
     <script src="common.js" defer></script>
     <style>
-        .profile-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .info-card { background: white; border-radius: var(--r-lg); padding: 24px; margin-bottom: 30px; box-shadow: var(--sh-md); }
-        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
-        .edit-btn { color: var(--yellow); cursor: pointer; font-weight: 600; }
-        .ad-card.user-ad { margin-bottom: 20px; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
-        .ad-card .card-img { width: 120px; height: 120px; background-size: cover; background-position: center; }
-        .ad-actions { margin-top: 10px; display: flex; gap: 10px; }
-        .btn-sm { padding: 6px 12px; border-radius: var(--r-md); font-weight: 600; border: none; cursor: pointer; }
-        .btn-edit { background: var(--yellow); color: black; }
-        .btn-delete { background: #dc2626; color: white; }
+        body { background: #f5f5f5; }
+        .profile-container { max-width: 1000px; margin: 40px auto; padding: 0 20px 60px; }
+        .info-card { background: white; border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .info-card h2 { margin-bottom: 20px; font-size: 1.3rem; }
+        .info-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f0f0f0; flex-wrap: wrap; gap: 8px; }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #6B7280; font-size: 0.9rem; font-weight: 600; min-width: 140px; }
+        .info-val { font-weight: 700; flex: 1; }
+        .edit-btn { color: #F5C518; cursor: pointer; font-weight: 600; background: none; border: none; font-size: 1rem; padding: 4px 10px; border-radius: 8px; transition: background 0.2s; }
+        .edit-btn:hover { background: #fff9e0; }
+
+        /* صورة المستخدم */
+        .avatar-section { display: flex; align-items: center; gap: 24px; margin-bottom: 24px; flex-wrap: wrap; }
+        .avatar-wrap { position: relative; width: 100px; height: 100px; }
+        .avatar-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; background: #eee; border: 3px solid #F5C518; }
+        .avatar-placeholder { width: 100px; height: 100px; border-radius: 50%; background: #1A1A1A; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 3px solid #F5C518; }
+        .avatar-edit-btn { position: absolute; bottom: 0; left: 0; background: #F5C518; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .avatar-info h3 { margin: 0 0 4px; font-size: 1.3rem; }
+        .avatar-info p { color: #6B7280; margin: 0; font-size: 0.9rem; }
+
+        /* إعلانات */
+        .ad-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; gap: 0; margin-bottom: 16px; }
+        .ad-thumb { width: 120px; min-height: 120px; background-size: cover; background-position: center; background-color: #eee; flex-shrink: 0; }
+        .ad-body { padding: 16px; flex: 1; }
+        .ad-title { font-weight: 800; margin-bottom: 6px; }
+        .ad-price { color: #0D0D0D; font-weight: 700; }
+        .ad-meta { font-size: 0.8rem; color: #6B7280; margin: 4px 0; }
+        .ad-actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-sm { padding: 6px 14px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; font-size: 0.85rem; }
+        .btn-edit-ad { background: #F5C518; color: black; }
+        .btn-delete-ad { background: #dc2626; color: white; }
+
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: white; border-radius: 16px; padding: 28px; max-width: 420px; width: 90%; }
+        .modal h3 { margin-bottom: 20px; }
+        .modal .form-group { margin-bottom: 16px; }
+        .modal label { display: block; margin-bottom: 6px; font-weight: 600; color: #374151; }
+        .modal input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-actions button { flex: 1; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; font-size: 0.95rem; }
+        .btn-confirm { background: #F5C518; color: black; }
+        .btn-cancel { background: #f3f4f6; color: #374151; }
+
+        footer { background: #1A1A1A; border-top: 2px solid #F5C518; padding: 40px; color: #9CA3AF; }
     </style>
 </head>
 <body>
+
+    <!-- NAVBAR -->
     <nav class="navbar">
         <a href="index.html" class="nav-logo"><div class="nav-logo-name">دَبر<span>ها</span></div></a>
         <ul class="nav-links">
@@ -38,59 +76,284 @@
     </nav>
 
     <div class="profile-container">
-        <div class="info-card"><h2>👤 معلوماتي الشخصية</h2><div id="profileInfo"></div></div>
-        <div class="info-card"><h2>📦 إعلاناتي</h2><div id="myAdsList"></div></div>
-        <button id="logoutBtnProfile" class="btn-primary" style="background:#dc2626; margin-top:20px;">🚪 تسجيل الخروج</button>
+        <!-- صورة المستخدم -->
+        <div class="info-card">
+            <div class="avatar-section">
+                <div class="avatar-wrap">
+                    <div id="avatarDisplay"></div>
+                    <button class="avatar-edit-btn" onclick="document.getElementById('avatarInput').click()" title="تغيير الصورة">✏️</button>
+                    <input type="file" id="avatarInput" accept="image/*" style="display:none">
+                </div>
+                <div class="avatar-info">
+                    <h3 id="headerName"></h3>
+                    <p id="headerEmail"></p>
+                </div>
+            </div>
+
+            <h2>👤 معلوماتي الشخصية</h2>
+            <div id="profileInfo"></div>
+        </div>
+
+        <!-- إعلاناتي -->
+        <div class="info-card">
+            <h2>📦 إعلاناتي</h2>
+            <div id="myAdsList"></div>
+        </div>
     </div>
 
-    <footer>... (footer) ...</footer>
+    <!-- Modal تعديل -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <h3 id="modalTitle">تعديل</h3>
+            <div class="form-group">
+                <label id="modalLabel">القيمة الجديدة</label>
+                <input type="text" id="modalInput">
+            </div>
+            <div id="modalExtraGroup" class="form-group" style="display:none;">
+                <label id="modalExtraLabel"></label>
+                <input type="text" id="modalExtraInput">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-confirm" onclick="confirmEdit()">حفظ</button>
+                <button class="btn-cancel" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1200px; margin: 0 auto;">
+            <div class="footer-col"><h4 style="color: white;">دبرها</h4><ul class="footer-links" style="list-style: none; padding: 0;"><li><a href="about.html" style="color: #9CA3AF;">عن المنصة</a></li><li><a href="terms.html" style="color: #9CA3AF;">شروط الاستخدام</a></li><li><a href="privacy.html" style="color: #9CA3AF;">سياسة الخصوصية</a></li></ul></div>
+            <div class="footer-col"><h4 style="color: white;">تواصل معنا</h4><div class="social-icons" style="display: flex; gap: 16px;"><a href="#" onclick="return false;" style="color: #9CA3AF;"><i class="fab fa-facebook"></i></a><a href="#" onclick="return false;" style="color: #9CA3AF;"><i class="fab fa-instagram"></i></a><a href="#" onclick="return false;" style="color: #9CA3AF;"><i class="fab fa-whatsapp"></i></a></div></div>
+            <div class="footer-col"><h4 style="color: white;">روابط سريعة</h4><ul class="footer-links" style="list-style: none; padding: 0;"><li><a href="hand-tools.html" style="color: #9CA3AF;">معدات يدوية</a></li><li><a href="heavy-vehicles.html" style="color: #9CA3AF;">مركبات ثقيلة</a></li><li><a href="add-listing.html" style="color: #9CA3AF;">أضف إعلانك</a></li></ul></div>
+        </div>
+        <div class="footer-bottom" style="text-align: center; padding-top: 30px; margin-top: 30px; border-top: 1px solid #333;">© 2025 دبّرها – جميع الحقوق محفوظة</div>
+    </footer>
 
     <script>
-        const user = getCurrentUser();
-        if (!user) { alert('يرجى تسجيل الدخول'); window.location.href = 'login.html'; }
+        // ============ Init ============
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!isLoggedIn()) { alert('يرجى تسجيل الدخول'); window.location.href = 'login.html'; return; }
+            updateNavbarForAuth();
+            renderProfile();
+            renderMyAds();
+        });
 
-        document.getElementById('profileInfo').innerHTML = `
-            <div class="info-row"><span>الاسم:</span><span>${user.firstName || ''} ${user.lastName || ''} <button class="edit-btn" onclick="editName()">تعديل</button></span></div>
-            <div class="info-row"><span>رقم الهاتف:</span><span>${user.phone || ''} <button class="edit-btn" onclick="editPhone()">تعديل</button></span></div>
-            <div class="info-row"><span>البريد الإلكتروني:</span><span>${user.email || ''}</span></div>
-            <div class="info-row"><span>رقم المحفظة:</span><span>${user.walletNumber || ''} <button class="edit-btn" onclick="editWallet()">تعديل</button></span></div>
-        `;
+        function getUser() {
+            return getCurrentUser();
+        }
 
-        let allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
-        let myAds = allAds.filter(ad => ad.ownerId === (user.email || user.phone));
+        function saveUser(updatedUser) {
+            const users = JSON.parse(localStorage.getItem('dabirha_users')) || [];
+            const idx = users.findIndex(u => u.email === updatedUser.email);
+            if (idx !== -1) users[idx] = updatedUser;
+            localStorage.setItem('dabirha_users', JSON.stringify(users));
+        }
 
+        // ============ Profile Render ============
+        function renderProfile() {
+            const user = getUser();
+            if (!user) return;
+
+            // اسم وإيميل في الأعلى
+            document.getElementById('headerName').textContent = (user.firstName || '') + ' ' + (user.lastName || '');
+            document.getElementById('headerEmail').textContent = user.email || '';
+
+            // الصورة
+            const avatarDisplay = document.getElementById('avatarDisplay');
+            if (user.avatar) {
+                avatarDisplay.innerHTML = `<img src="${user.avatar}" class="avatar-img" alt="صورة المستخدم">`;
+            } else {
+                avatarDisplay.innerHTML = `<div class="avatar-placeholder">👤</div>`;
+            }
+
+            // المعلومات
+            document.getElementById('profileInfo').innerHTML = `
+                <div class="info-row">
+                    <span class="info-label">الاسم الكامل</span>
+                    <span class="info-val">${user.firstName || ''} ${user.lastName || ''}</span>
+                    <button class="edit-btn" onclick="openModal('name', 'تعديل الاسم', 'الاسم الأول', '${user.firstName || ''}', 'الاسم الأخير', '${user.lastName || ''}')">✏️ تعديل</button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">البريد الإلكتروني</span>
+                    <span class="info-val">${user.email || ''}</span>
+                    <button class="edit-btn" onclick="openModal('email', 'تعديل الإيميل', 'البريد الإلكتروني الجديد', '${user.email || ''}')">✏️ تعديل</button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">رقم الهاتف</span>
+                    <span class="info-val">${user.phone || ''}</span>
+                    <button class="edit-btn" onclick="openModal('phone', 'تعديل الهاتف', 'رقم الهاتف الجديد', '${user.phone || ''}')">✏️ تعديل</button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">رقم المحفظة</span>
+                    <span class="info-val">${user.walletNumber || ''}</span>
+                    <button class="edit-btn" onclick="openModal('wallet', 'تعديل رقم المحفظة', 'رقم المحفظة الجديد', '${user.walletNumber || ''}')">✏️ تعديل</button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">كلمة السر</span>
+                    <span class="info-val">••••••••</span>
+                    <button class="edit-btn" onclick="openModal('password', 'تغيير كلمة السر', 'كلمة السر الجديدة', '')">✏️ تعديل</button>
+                </div>
+            `;
+        }
+
+        // ============ Avatar ============
+        document.getElementById('avatarInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                const user = getUser();
+                user.avatar = ev.target.result;
+                saveUser(user);
+                renderProfile();
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // ============ Modal ============
+        let currentField = '';
+
+        function openModal(field, title, label, value, extraLabel, extraValue) {
+            currentField = field;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalLabel').textContent = label;
+            document.getElementById('modalInput').value = value || '';
+            document.getElementById('modalInput').type = field === 'password' ? 'password' : 'text';
+
+            const extraGroup = document.getElementById('modalExtraGroup');
+            if (extraLabel) {
+                extraGroup.style.display = 'block';
+                document.getElementById('modalExtraLabel').textContent = extraLabel;
+                document.getElementById('modalExtraInput').value = extraValue || '';
+            } else {
+                extraGroup.style.display = 'none';
+            }
+            document.getElementById('editModal').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('open');
+        }
+
+        function confirmEdit() {
+            const val = document.getElementById('modalInput').value.trim();
+            const extra = document.getElementById('modalExtraInput').value.trim();
+            const user = getUser();
+
+            if (!val) { alert('الحقل لا يمكن أن يكون فارغاً'); return; }
+
+            if (currentField === 'name') {
+                user.firstName = val;
+                user.lastName = extra || user.lastName;
+            } else if (currentField === 'email') {
+                // تحقق عدم التكرار
+                const users = JSON.parse(localStorage.getItem('dabirha_users')) || [];
+                if (users.find(u => u.email === val && u.email !== user.email)) {
+                    alert('هذا البريد مستخدم مسبقاً'); return;
+                }
+                // تحديث المفتاح في users list
+                const idx = users.findIndex(u => u.email === user.email);
+                if (idx !== -1) { users[idx].email = val; localStorage.setItem('dabirha_users', JSON.stringify(users)); }
+                // تحديث الجلسة
+                sessionStorage.setItem('dabirha_session', JSON.stringify({ email: val }));
+                user.email = val;
+            } else if (currentField === 'phone') {
+                user.phone = val;
+            } else if (currentField === 'wallet') {
+                user.walletNumber = val;
+            } else if (currentField === 'password') {
+                user.password = val;
+            }
+
+            saveUser(user);
+            closeModal();
+            renderProfile();
+            updateNavbarForAuth();
+        }
+
+        // إغلاق Modal بالنقر خارجه
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ============ My Ads ============
         function renderMyAds() {
+            const user = getUser();
+            if (!user) return;
+            const allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
+            const myAds = allAds.filter(ad => ad.ownerId === user.email);
             const container = document.getElementById('myAdsList');
-            if (myAds.length === 0) { container.innerHTML = '<p>لا توجد إعلانات. <a href="add-listing.html">أضف إعلانك الأول</a></p>'; return; }
+
+            if (myAds.length === 0) {
+                container.innerHTML = '<p style="color:#6B7280;">لا توجد إعلانات. <a href="add-listing.html" style="color:#F5C518;">أضف إعلانك الأول</a></p>';
+                return;
+            }
+
             container.innerHTML = myAds.map(ad => `
-                <div class="ad-card user-ad" data-id="${ad.id}">
-                    <div class="card-img" style="background-image: url('${ad.image}');"></div>
-                    <div class="card-body">
-                        <div class="card-title">${ad.title}</div>
-                        <div class="card-price" id="price-${ad.id}">${ad.price} <small>JD/يوم</small></div>
-                        <div class="card-meta">📍 ${ad.city} | ${ad.subType}</div>
-                        <div class="card-meta">📅 من ${ad.startDate} إلى ${ad.endDate}</div>
+                <div class="ad-card" id="adCard-${ad.id}">
+                    <div class="ad-thumb" style="background-image: url('${ad.image || ''}');"></div>
+                    <div class="ad-body">
+                        <div class="ad-title">${ad.title}</div>
+                        <div class="ad-price">${ad.price} <small>JD/يوم</small></div>
+                        <div class="ad-meta">📍 ${ad.city} | ${ad.subType}</div>
+                        <div class="ad-meta">📅 من ${ad.startDate} إلى ${ad.endDate}</div>
                         <div class="ad-actions">
-                            <button class="btn-sm btn-edit" onclick="editAdPrice(${ad.id})">تعديل السعر</button>
-                            <button class="btn-sm btn-edit" onclick="editAdDates(${ad.id})">تعديل الموعد</button>
-                            <button class="btn-sm btn-delete" onclick="deleteAd(${ad.id})">حذف الإعلان</button>
+                            <button class="btn-sm btn-edit-ad" onclick="editAdPrice(${ad.id}, ${ad.price})">✏️ تعديل السعر</button>
+                            <button class="btn-sm btn-edit-ad" onclick="editAdDates(${ad.id}, '${ad.startDate}', '${ad.endDate}')">📅 تعديل المواعيد</button>
+                            <button class="btn-sm btn-delete-ad" onclick="deleteAd(${ad.id})">🗑️ حذف</button>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        window.editAdPrice = (id) => { const ad = myAds.find(a => a.id === id); const newPrice = prompt('السعر الجديد', ad.price); if(newPrice && !isNaN(newPrice)) { ad.price = parseInt(newPrice); updateStorage(); renderMyAds(); } };
-        window.editAdDates = (id) => { const ad = myAds.find(a => a.id === id); const ns = prompt('تاريخ البداية (YYYY-MM-DD)', ad.startDate); const ne = prompt('تاريخ النهاية', ad.endDate); if(ns && ne) { ad.startDate = ns; ad.endDate = ne; updateStorage(); renderMyAds(); } };
-        window.deleteAd = (id) => { if(confirm('حذف الإعلان؟')) { myAds = myAds.filter(a => a.id !== id); allAds = allAds.filter(a => a.id !== id); updateStorage(); renderMyAds(); } };
-        function updateStorage() { allAds = allAds.map(ad => myAds.find(a => a.id === ad.id) || ad); localStorage.setItem('dabirha_ads', JSON.stringify(allAds)); }
-        renderMyAds();
+        function editAdPrice(id, currentPrice) {
+            openModal('adPrice_' + id, 'تعديل سعر الإعلان', 'السعر الجديد (JD/يوم)', String(currentPrice));
+        }
 
-        window.editName = () => { const newName = prompt('الاسم الجديد'); if(newName) { user.firstName = newName; localStorage.setItem('dabirha_user', JSON.stringify(user)); location.reload(); } };
-        window.editPhone = () => { const newPhone = prompt('رقم الهاتف الجديد'); if(newPhone) { user.phone = newPhone; localStorage.setItem('dabirha_user', JSON.stringify(user)); location.reload(); } };
-        window.editWallet = () => { const newWallet = prompt('رقم المحفظة الجديد'); if(newWallet) { user.walletNumber = newWallet; localStorage.setItem('dabirha_user', JSON.stringify(user)); location.reload(); } };
+        function editAdDates(id, start, end) {
+            openModal('adDates_' + id, 'تعديل مواعيد الإعلان', 'تاريخ البداية (YYYY-MM-DD)', start, 'تاريخ النهاية (YYYY-MM-DD)', end);
+        }
 
-        document.getElementById('logoutBtnProfile')?.addEventListener('click', () => { logout(); });
+        // override confirmEdit لدعم الإعلانات
+        const _originalConfirm = confirmEdit;
+        window.confirmEdit = function() {
+            if (currentField.startsWith('adPrice_')) {
+                const id = parseInt(currentField.split('_')[1]);
+                const newPrice = parseInt(document.getElementById('modalInput').value);
+                if (isNaN(newPrice) || newPrice <= 0) { alert('سعر غير صحيح'); return; }
+                updateAd(id, { price: newPrice });
+                closeModal();
+                renderMyAds();
+                return;
+            }
+            if (currentField.startsWith('adDates_')) {
+                const id = parseInt(currentField.split('_')[1]);
+                const ns = document.getElementById('modalInput').value;
+                const ne = document.getElementById('modalExtraInput').value;
+                if (!ns || !ne) { alert('يرجى تعبئة التواريخ'); return; }
+                updateAd(id, { startDate: ns, endDate: ne });
+                closeModal();
+                renderMyAds();
+                return;
+            }
+            _originalConfirm();
+        };
+
+        function updateAd(id, changes) {
+            const allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
+            const idx = allAds.findIndex(a => a.id === id);
+            if (idx !== -1) { Object.assign(allAds[idx], changes); localStorage.setItem('dabirha_ads', JSON.stringify(allAds)); }
+        }
+
+        function deleteAd(id) {
+            if (!confirm('هل تريد حذف هذا الإعلان؟')) return;
+            let allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
+            allAds = allAds.filter(a => a.id !== id);
+            localStorage.setItem('dabirha_ads', JSON.stringify(allAds));
+            renderMyAds();
+        }
     </script>
 </body>
 </html>

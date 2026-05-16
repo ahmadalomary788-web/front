@@ -1,4 +1,4 @@
-<!-- hand-tools.html -->
+<!-- hand-tools.html (نسخة معدلة - فقط جزء الـ navbar وأيقونة تسجيل الدخول) -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <script src="common.js" defer></script> <!-- تم نقل common.js إلى head -->
   <style>
     .card-img { background-size: cover; background-position: center; background-repeat: no-repeat; }
     .ad-card .card-img { min-height: 160px; }
@@ -15,7 +16,7 @@
 </head>
 <body>
 
-  <!-- ========== NAVBAR ========== -->
+  <!-- ========== NAVBAR (تم تعديل زر تسجيل الدخول وإضافة الحاوية) ========== -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">
       <div class="nav-logo-name">دَبر<span>ها</span></div>
@@ -31,17 +32,18 @@
     </div>
     <div class="nav-actions">
       <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
-      <a href="login.html" class="btn-login">تسجيل الدخول</a>
+      <a href="login.html" class="btn-login" id="loginNavBtn">تسجيل الدخول</a> <!-- تمت إضافة id -->
+      <div id="userMenuContainer"></div> <!-- تمت إضافة الحاوية -->
     </div>
   </nav>
 
-  <!-- ========== HERO صغير ========== -->
+  <!-- ========== HERO صغير (بدون تغيير) ========== -->
   <div style="background: var(--black); padding: 30px 20px; text-align: center; border-bottom: 2px solid var(--yellow);">
     <h2 style="color: white;">🔧 معدات يدوية</h2>
     <p style="color: var(--gray-400);">أدوات كهربائية، عدد نجارة وحدادة، ومعدات حرفية</p>
   </div>
 
-  <!-- ========== 2 columns مع فلاتر ========== -->
+  <!-- ========== 2 columns مع فلاتر (بدون تغيير) ========== -->
   <div class="layout-2cols">
     <!-- الفلتر الجانبي -->
     <aside class="filters-sidebar">
@@ -89,7 +91,7 @@
     </div>
   </div>
 
-  <!-- ========== FOOTER ========== -->
+  <!-- ========== FOOTER (بدون تغيير) ========== -->
   <footer>
     <div class="footer-inner">
       <div class="footer-col">
@@ -103,9 +105,9 @@
       <div class="footer-col">
         <h4>تواصل معنا</h4>
         <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" onclick="return false;"><i class="fab fa-facebook"></i></a>
+          <a href="#" onclick="return false;"><i class="fab fa-instagram"></i></a>
+          <a href="#" onclick="return false;"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
       <div class="footer-col">
@@ -122,6 +124,14 @@
   </footer>
 
   <script>
+    // استدعاء تحديث الـ navbar بعد تحميل الصفحة (بعد أن يكون common.js قد تم تحميله)
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof updateNavbarForAuth === 'function') {
+        updateNavbarForAuth();
+      }
+    });
+
+    // باقي كود الفلاتر وعرض الإعلانات (بدون تغيير)
     let allAds = JSON.parse(localStorage.getItem('dabirha_ads')) || [];
     let toolsData = allAds.filter(ad => ad.mainType === 'hand');
 

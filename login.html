@@ -8,57 +8,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="common.js" defer></script>
     <style>
-        .auth-card { max-width: 480px; margin: 60px auto; }
+        body { background: #f5f5f5; display: flex; flex-direction: column; min-height: 100vh; align-items: center; justify-content: center; }
+        .auth-card { max-width: 480px; width: 100%; margin: 40px auto; }
+        .auth-logo { text-align: center; margin-bottom: 24px; font-size: 2rem; font-weight: 900; }
+        .auth-logo span { color: #F5C518; }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.html" class="nav-logo"><div class="nav-logo-name">دَبر<span>ها</span></div></a>
-        <ul class="nav-links">
-            <li><a href="index.html">الرئيسية</a></li>
-            <li><a href="hand-tools.html">معدات يدوية</a></li>
-            <li><a href="heavy-vehicles.html">مركبات ثقيلة</a></li>
-        </ul>
-        <div class="nav-search"><i class="fas fa-search"></i><input type="text" placeholder="ابحث..."></div>
-        <div class="nav-actions">
-            <a href="add-listing.html" class="btn-add-listing">➕ أضف إعلان</a>
-            <a href="login.html" class="btn-login" id="loginNavBtn">تسجيل الدخول</a>
-        </div>
-    </nav>
+    <div class="auth-logo">دَبر<span>ها</span></div>
 
     <div class="auth-card">
-        <div class="auth-header" style="background: var(--black); padding: 20px; text-align: center; border-bottom: 2px solid var(--yellow);">
+        <div class="auth-header" style="background: #0D0D0D; padding: 20px; text-align: center; border-bottom: 2px solid #F5C518; border-radius: 16px 16px 0 0;">
             <h2 style="color: white;">🔐 تسجيل الدخول</h2>
         </div>
-        <div class="auth-body" style="padding: 32px; background: white; border-radius: 0 0 var(--r-xl) var(--r-xl);">
-            <form id="loginForm">
-                <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="loginEmail" required placeholder="example@dabirha.com"></div>
-                <div class="form-group"><label>كلمة المرور</label><input type="password" id="loginPassword" required placeholder="********"></div>
-                <button type="submit" class="btn-primary">دخول</button>
-            </form>
+        <div class="auth-body" style="padding: 32px; background: white; border-radius: 0 0 16px 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+            <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="loginEmail" required placeholder="example@dabirha.com"></div>
+            <div class="form-group"><label>كلمة المرور</label><input type="password" id="loginPassword" required placeholder="********"></div>
+            <button id="loginBtn" class="btn-primary">دخول</button>
+            <div id="loginError" style="color: red; margin-top: 12px; text-align: center; display: none;"></div>
             <div class="switch-link" style="text-align: center; margin-top: 24px;">
-                لا تمتلك حساباً؟ <a href="register.html" style="color: var(--yellow);">انشئ حسابك الان</a>
+                لا تمتلك حساباً؟ <a href="register.html" style="color: #F5C518;">انشئ حسابك الان</a>
             </div>
         </div>
     </div>
 
-    <footer>... (footer) ...</footer>
-
+    <script src="common.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+        // إذا مسجل دخول انقله للرئيسية
+        if (isLoggedIn()) window.location.href = 'index.html';
+
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
-            const registeredUser = JSON.parse(localStorage.getItem('dabirha_user'));
-            if (registeredUser && registeredUser.email === email && registeredUser.password === password) {
-                localStorage.setItem('dabirha_user', JSON.stringify(registeredUser));
-                alert('تم تسجيل الدخول بنجاح');
+            const errDiv = document.getElementById('loginError');
+
+            if (!email || !password) {
+                errDiv.textContent = 'يرجى تعبئة جميع الحقول';
+                errDiv.style.display = 'block';
+                return;
+            }
+
+            // جلب قائمة المستخدمين
+            const users = JSON.parse(localStorage.getItem('dabirha_users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                // حفظ الجلسة فقط في sessionStorage
+                sessionStorage.setItem('dabirha_session', JSON.stringify({ email: user.email }));
                 window.location.href = 'index.html';
             } else {
-                alert('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+                errDiv.textContent = 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+                errDiv.style.display = 'block';
             }
+        });
+
+        // السماح بالضغط على Enter
+        document.getElementById('loginPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('loginBtn').click();
         });
     </script>
 </body>
